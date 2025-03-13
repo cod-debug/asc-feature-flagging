@@ -194,7 +194,7 @@ export default defineConfig((/* ctx */) => {
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        appId: 'sunn-alumni-app-fe'
+        appId: 'feature-flagging-fe'
       }
     },
 

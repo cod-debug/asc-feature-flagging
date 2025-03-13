@@ -133,7 +133,7 @@ export default {
   },
   mounted(){
     this.initializeDateAndTime();
-    this.user_data = JSON.parse(localStorage.getItem('__sunn_alumni_app_fe_user_data'));
+    this.user_data = JSON.parse(localStorage.getItem('__feature_flagging_app_fe_user_data'));
   },
   methods: {
     toggleLeftDrawer(){

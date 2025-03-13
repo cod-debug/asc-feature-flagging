@@ -28,8 +28,8 @@ export default defineRouter(function (/* { store, ssrContext } */) {
   })
 
   Router.beforeEach((to, from, next) => {
-    const access_token = localStorage.getItem('__sunn_alumni_app_fe_token');
-    const user_data = JSON.parse(localStorage.getItem('__sunn_alumni_app_fe_user_data'));
+    const access_token = localStorage.getItem('__feature_flagging_app_fe_token');
+    const user_data = JSON.parse(localStorage.getItem('__feature_flagging_app_fe_user_data'));
     const requires_auth = !to.meta.notRequiredAuth || false;
     const allowed_users = to.meta?.allowed_users || [];
 

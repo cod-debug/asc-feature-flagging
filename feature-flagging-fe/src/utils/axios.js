@@ -1,6 +1,6 @@
 import Axios from 'axios';
 
-const user_token = localStorage.getItem('__sunn_alumni_app_fe_token');
+const user_token = localStorage.getItem('__feature_flagging_app_fe_token');
 
 Axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 Axios.defaults.headers.common['Content-Type'] = "application/json";

@@ -66,7 +66,7 @@ export default {
         initApp() {
             const admin_routes = adminRoutes;
 
-            const user_role = JSON.parse(localStorage.getItem('__sunn_alumni_app_fe_user_data')).role;
+            const user_role = JSON.parse(localStorage.getItem('__feature_flagging_app_user_data')).role;
             if(user_role === 1){
                 this.drawer_items = admin_routes;
             } else {

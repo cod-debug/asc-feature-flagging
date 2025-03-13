@@ -1,4 +1,4 @@
-# Alumni App (sunn-alumni-app-fe)
+# Alumni App (feature-flagging-fe)
 
 A Quasar Project
 
