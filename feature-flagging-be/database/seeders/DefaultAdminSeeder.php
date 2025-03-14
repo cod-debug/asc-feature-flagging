@@ -18,7 +18,7 @@ class DefaultAdminSeeder extends Seeder
         $email = 'default@admin.test';
         
         $user_data = [
-            'full_name' => 'Default',
+            'full_name' => 'Roy',
             'email' => $email,
             'password' => Hash::make($password),
             'user_role' => 1,

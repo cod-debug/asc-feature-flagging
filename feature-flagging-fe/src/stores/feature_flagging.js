@@ -50,7 +50,7 @@ export const featureFlaggingStore = defineStore('authStore', {
       }
     },
     async list(payload){
-      this.add_request.loading = true;
+      this.list_request.loading = true;
       try {
         const {data, status} = await axios({
           method: 'GET',
@@ -63,14 +63,14 @@ export const featureFlaggingStore = defineStore('authStore', {
         });
         
         if([200,201].includes(status)){
-          this.add_request.data = data;
-          this.add_request.error = null;
+          this.list_request.data = data;
+          this.list_request.error = null;
         }
       } catch(error){
-        this.add_request.data = null;
-        this.add_request.error = error.response.data;
+        this.list_request.data = null;
+        this.list_request.error = error.response.data;
       } finally {
-        this.add_request.loading = false;
+        this.list_request.loading = false;
       }
     },
     async update(payload){

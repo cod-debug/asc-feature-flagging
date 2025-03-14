@@ -8,14 +8,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
+use function PHPUnit\Framework\isNull;
+
 class FeatureFlagController extends Controller
 {
     //
     public function create(Request $request): JsonResponse{
         try {
             $validator = Validator::make($request->all(), [
-                'display_name' => 'required|min:3',
-                'key' => 'required|min:3'
+                'display_name' => 'required|min:3'
             ]);
 
             if($validator->fails()){
@@ -25,8 +26,12 @@ class FeatureFlagController extends Controller
             $data = [
                 ...$request->all(),
                 'user_id' => Auth::user()->id,
-                'is_on' => true,
+                'is_on' => false,
             ];
+
+            if(empty($data['key']) || !$data['key'] || isNull($data['key'])){
+                $data['key'] = strtolower(str_replace(' ', '_', $data['display_name']));
+            }
             
             FeatureFlagModel::create($data);
 
@@ -47,7 +52,28 @@ class FeatureFlagController extends Controller
                 $feature_flags = $feature_flags->where('user_id', $user_id);
             }
 
-            return response()->json($feature_flags);
+            return response()->json($feature_flags->get());
+        } catch (\Exception $e) {
+            return $this->serverError($e);
+        }
+    }
+
+    public function getPublicFeatureFlags(Request $request){
+        try {
+            $user_id = $request->get('user_id');
+            $feature_flags = FeatureFlagModel::query();
+
+            if($user_id){
+                $feature_flags = $feature_flags->where('user_id', $user_id);
+            }
+
+            $features = $feature_flags->get()->map(function ($item) {
+                return [
+                    $item->key => $item->is_on === 1 ? true : false
+                ];
+            });
+            
+            return response()->json($features);
         } catch (\Exception $e) {
             return $this->serverError($e);
         }

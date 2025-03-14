@@ -19,8 +19,12 @@ Route::prefix('v1')->group(function() {
     
     Route::prefix('feature')->middleware('auth:sanctum')->group(function() {
         Route::post('', [FeatureFlagController::class, 'create']);
-        Route::get('/{id}', [FeatureFlagController::class, 'getFeatureFlags']);
+        Route::get('', [FeatureFlagController::class, 'getFeatureFlags']);
         Route::put('/{id}', [FeatureFlagController::class, 'update']);
         Route::put('toggle/{id}', [FeatureFlagController::class, 'toggleFeatureFlag']);
+    });
+
+    Route::prefix('public')->group(function(){
+        Route::get('features', [FeatureFlagController::class, 'getPublicFeatureFlags']);
     });
 });
