@@ -1,9 +1,9 @@
 <template>
     <q-card flat style="border-bottom: 1px solid lightgray;">
         <q-card-section>
-            <q-toggle v-model="feature.is_on" @update:model-value="handleToggleFeatureFlag">
+            <q-toggle v-model="feature.is_on" @update:model-value="handleToggleFeatureFlag" :disable="toggle_request.loading">
                 <div>{{ feature.display_name }}</div>
-                <div class="text-caption text-grey-8"><strong>Key:</strong> {{ feature.key }} </div>
+                <div class="text-caption text-grey-8"><strong>Key:</strong> {{ feature.key }}</div>
             </q-toggle>
         </q-card-section>
     </q-card>

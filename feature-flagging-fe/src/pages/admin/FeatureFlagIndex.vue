@@ -4,7 +4,7 @@
             <div class="col-12 col-md-8 q-pa-sm">
                 <q-card>
                     <q-card-section>
-                        <div class="text-h6">Feature List</div>
+                        <div class="text-h6">Feature List <q-spinner v-if="list_request.loading" /></div>
                     </q-card-section>
                     <q-separator />
                     <q-card-section>

@@ -1,14 +1,15 @@
 <template>
     <div>
+        <q-spinner v-if="add_request.loading" />
         <q-form @submit="handleSubmit">
             <div class="q-pa-sm">
-                <q-input label="Display Name" v-model="add_form.display_name" :rules="[$rules.required]" filled />
+                <q-input label="Display Name" v-model="add_form.display_name" :rules="[$rules.required]" filled :disable="add_request.loading" />
             </div>
             <div class="q-pa-sm">
-                <q-input label="Key" hint="Leaving this field blank will allow the system to create a key for you. This will be use as identifier for the feature" v-model="add_form.key" filled />
+                <q-input label="Key" hint="Leaving this field blank will allow the system to create a key for you. This will be use as identifier for the feature" v-model="add_form.key" filled :disable="add_request.loading" />
             </div>
             <div class="q-pa-sm">
-                <q-btn type="submit" label="Submit" color="primary" />
+                <q-btn type="submit" label="Submit" color="primary" :disable="add_request.loading" />
             </div>
         </q-form>
     </div>
