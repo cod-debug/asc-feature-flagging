@@ -3,14 +3,22 @@
         <q-card-section>
             <div class="toggle-action-buttons">
                 <div class="flex justify-end items-center full-height" style="gap: .5rem;">
-                    <template v-if="!is_edit">
+                    <template v-if="!is_edit && !is_delete">
                         <q-btn icon="edit" size="sm" color="green-14" @click="openEdit" />
-                        <q-btn icon="delete" size="sm" color="red-12" />
+                        <q-btn icon="delete" size="sm" color="red-12" @click="openDelete" />
                     </template>
-                    <template v-else>
-                        <q-btn icon="check" @click="handleUpdateFeature" size="sm" color="green-14" />
-                        <q-btn  icon="close" @click="is_edit = false" color="grey-8" size="sm" />
+                    <template v-if="is_edit">
+                        <q-btn icon="check" @click="handleUpdateFeature" size="sm" color="green-14">
+                            <q-tooltip>Save Update</q-tooltip>
+                        </q-btn>
                     </template>
+                    <template v-if="is_delete">
+                        <span>Are you sure you want to delete this feature flag?</span>
+                        <q-btn icon="check" @click="handleDelete" size="sm" color="red-8">
+                            <q-tooltip>Confirm Delete</q-tooltip>
+                        </q-btn>
+                    </template>
+                    <q-btn v-if="is_edit || is_delete" icon="close" @click="closeAllAction" color="grey-8" size="sm" />
                 </div>
             </div>
             <q-toggle v-model="feature.is_on" @update:model-value="handleToggleFeatureFlag" :disable="toggle_request.loading" v-if="!is_edit">
@@ -42,6 +50,7 @@ const store = featureFlaggingStore();
 const { toggle } = store;
 const { toggle_request } = storeToRefs(store);
 const is_edit = ref(false);
+const is_delete = ref(false);
 
 const update_form = ref({ display_name: '', key: '' })
 
@@ -55,8 +64,23 @@ const openEdit = () => {
     update_form.value.key = current_feature.key;
 }
 
-const handleUpdateFeature = async () => {
+const openDelete = () => {
+    is_delete.value = true;
 }
+
+const closeAllAction = () => {
+    is_delete.value = false;
+    is_edit.value = false;
+}
+
+const handleUpdateFeature = async () => {
+    alert('Save update...');
+}
+
+const handleDelete = async () => {
+    alert('Delete feature...');
+}
+
 const handleToggleFeatureFlag = async () => {
     const payload = {
         id: feature.id
