@@ -42,8 +42,6 @@ class AuthController extends Controller
             ])){
                 // select specific user
                 $user = User::where('email', $request->email)->first();
-                // remove existing tokens to invalidate other logins
-                $user->tokens()->delete();
             }
 
             if(!$user){
