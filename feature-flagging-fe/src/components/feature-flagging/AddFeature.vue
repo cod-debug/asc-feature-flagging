@@ -20,17 +20,17 @@ import { featureFlaggingStore } from 'src/stores/feature_flagging';
 import { storeToRefs } from 'pinia';
 import { Notify } from 'quasar';
 
-const form_default_value = {
-    display_name: '',
-    key: ''
-}
-
 const emit = defineEmits(['onSave']);
 const $store = featureFlaggingStore();
 const { add } = $store;
 const { add_request } = storeToRefs($store);
 
-const add_form = ref(form_default_value);
+const getDefaultFormValue = () => ({
+    display_name: '',
+    key: ''
+});
+
+const add_form = ref(getDefaultFormValue);
 
 const handleSubmit = async () => {
     await add(add_form.value);
@@ -44,10 +44,9 @@ const handleSubmit = async () => {
           timeout: 5000,
           color: 'green',
         });
+        add_form.value = getDefaultFormValue;
         emit('onSave');
-        add_form.value = form_default_value;
     }
-
 }
 
 </script>
