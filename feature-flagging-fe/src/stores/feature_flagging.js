@@ -99,7 +99,6 @@ export const featureFlaggingStore = defineStore('authStore', {
         const {data, status} = await axios({
           method: 'PUT',
           url:`${API_BASE_URL}/api/v1/feature/toggle/${payload.id}`,
-          data: payload,
         });
         
         if([200,201].includes(status)){

@@ -36,7 +36,7 @@ class FeatureFlagController extends Controller
             if(FeatureFlagModel::where('key', $data['key'])->first()){
                 return response()->json([
                     'message' => 'Duplicate entry. Key already exist please try something else.'
-                ]);
+                ], 400);
             }
 
             FeatureFlagModel::create($data);

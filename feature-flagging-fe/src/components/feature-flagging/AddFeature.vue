@@ -25,12 +25,7 @@ const $store = featureFlaggingStore();
 const { add } = $store;
 const { add_request } = storeToRefs($store);
 
-const getDefaultFormValue = () => ({
-    display_name: '',
-    key: ''
-});
-
-const add_form = ref(getDefaultFormValue);
+const add_form = ref({display_name: '',key: ''});
 
 const handleSubmit = async () => {
     await add(add_form.value);
@@ -44,8 +39,16 @@ const handleSubmit = async () => {
           timeout: 5000,
           color: 'green',
         });
-        add_form.value = getDefaultFormValue;
+        add_form.value = {display_name: '',key: ''};
         emit('onSave');
+    } else {
+        Notify.create({
+          message: response.error.message,
+          position: 'top',
+          closeBtn: "X",
+          timeout: 5000,
+          color: 'red',
+        });
     }
 }
 
