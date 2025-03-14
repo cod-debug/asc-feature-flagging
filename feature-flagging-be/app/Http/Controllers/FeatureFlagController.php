@@ -22,7 +22,6 @@ class FeatureFlagController extends Controller
             if($validator->fails()){
                 return $this->validationError($validator->errors());
             }
-
             $data = [
                 ...$request->all(),
                 'user_id' => Auth::user()->id,
@@ -33,6 +32,13 @@ class FeatureFlagController extends Controller
                 $data['key'] = strtolower(str_replace(' ', '_', $data['display_name']));
             }
             
+            // avoid key duplication
+            if(FeatureFlagModel::where('key', $data['key'])->first()){
+                return response()->json([
+                    'message' => 'Duplicate entry. Key already exist please try something else.'
+                ]);
+            }
+
             FeatureFlagModel::create($data);
 
             return response()->json([
