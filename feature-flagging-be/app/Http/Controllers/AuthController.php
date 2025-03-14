@@ -19,11 +19,11 @@ class AuthController extends Controller
             $validator = Validator::make(
                 $request->all(),
                 [
-                    'username_email' => 'required',
+                    'email' => 'required',
                     'password' => 'required',
                 ],
                 [
-                    'username_email.required' => 'Username / email is required.',
+                    'email.required' => 'Username / email is required.',
                     'password.required' => 'Password is required.'
                 ]
             );
@@ -37,22 +37,11 @@ class AuthController extends Controller
     
             // check if auth email and password match
             if(Auth::attempt([
-                'email' => $request->username_email,
+                'email' => $request->email,
                 'password' => $request->password
             ])){
                 // select specific user
-                $user = User::where('email', $request->username_email)->first();
-                // remove existing tokens to invalidate other logins
-                $user->tokens()->delete();
-            }
-    
-            // check if auth username and password match
-            if(Auth::attempt([
-                'username' => $request->username_email,
-                'password' => $request->password
-            ])){
-                // select specific user
-                $user = User::where('username', $request->username_email)->first();
+                $user = User::where('email', $request->email)->first();
                 // remove existing tokens to invalidate other logins
                 $user->tokens()->delete();
             }

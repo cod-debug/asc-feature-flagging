@@ -1,6 +1,7 @@
 <template>
     <q-page class="full-width full-height flex justify-center items-center bg-dark">
-        <q-form>
+        <q-form @submit="handleSubmit">
+            <q-spinner v-if="login_request.loading" />
             <q-card style="width: 600px; max-width: 90vw;" class="bg-grey-12">
                 <q-card-section>
                     <div class="text-h6">Welcome to ASC Feature Flagging App</div>
@@ -21,7 +22,7 @@
                 <q-separator />
 
                 <q-card-actions>
-                    <q-btn label="Log In" color="blue-12" class="full-width" />
+                    <q-btn type="submit" label="Log In" color="blue-12" class="full-width" />
                 </q-card-actions>
             </q-card>
         </q-form>
@@ -29,7 +30,42 @@
 </template>
 <script setup>
 import { ref } from 'vue';
+import { authStore } from 'stores/auth.js';
+import { storeToRefs } from 'pinia';
+import { Notify } from 'quasar';
+import { useRouter } from 'vue-router';
 
 const email = ref('');
 const password = ref('');
+const auth_store = authStore();
+const router = useRouter();
+
+const { login_request } = storeToRefs(auth_store);
+const { loginUser } = auth_store;
+
+const handleSubmit = async () => {
+    const payload = {
+        email: email.value,
+        password: password.value,
+    }
+
+    await loginUser(payload);
+    const response = login_request.value;
+
+    if(response.data) {
+        localStorage.setItem('__feature_flagging_app_fe_user_data', JSON.stringify(response.data.data));
+        localStorage.setItem('__feature_flagging_app_fe_token', response.data.token);
+        
+        Notify.create({
+          message: response.data.message,
+          position: 'bottom-right',
+          closeBtn: "X",
+          timeout: 5000,
+          color: 'green',
+        });
+
+        router.go({ name: 'feature-flag' });
+    }
+
+}
 </script>

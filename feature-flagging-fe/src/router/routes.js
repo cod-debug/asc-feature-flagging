@@ -11,12 +11,18 @@ const routes = [
           notRequiredAuth: true
         },
       },
+    ]
+  },
+  {
+    path: '/feature-flag',
+    component: () => import('layouts/FeatureFlaggingLayout.vue'),
+    children: [
       {
-        path: 'feature-flag',
+        path: '',
         component: () => import('pages/admin/FeatureFlagIndex.vue'),
         name: 'feature-flag'
-      },
-    ]
+      }
+    ],
   },
   // Always leave this as last one,
   // but you can also remove it

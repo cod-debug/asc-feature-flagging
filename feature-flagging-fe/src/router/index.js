@@ -46,10 +46,10 @@ export default defineRouter(function (/* { store, ssrContext } */) {
       next({ name: "login" });
     } else if(allowed_users?.length > 0 && !allowed_users.includes(user_data.role)){
       // check if route has allowed users and if allowed user role does not match with allowed users, client should be redirected to dashboard
-      next({ name: "dashboard" });
+      next({ name: "feature-flag" });
     } else if(!requires_auth && access_token){
       // check if route does not require auth and client have access token
-      next({ name: "dashboard" });
+      next({ name: "feature-flag" });
     } else {
       // if route and client information matches proceed to next route
       next();

@@ -22,8 +22,7 @@ class User extends Authenticatable implements Auditable
      */
 
     public const USER_ROLE_ADMIN = 1;
-    public const USER_ROLE_ALUMNI = 2;
-    public const USER_ROLE_EMPLOYER = 3;
+    public const USER_ROLE_SWITCH = 2;
 
     protected $fillable = [
         'full_name',
