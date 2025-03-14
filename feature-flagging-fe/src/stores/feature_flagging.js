@@ -112,6 +112,25 @@ export const featureFlaggingStore = defineStore('authStore', {
         this.toggle_request.loading = false;
       }
     },
+    async delete(payload){
+      this.toggle_request.loading = true;
+      try {
+        const {data, status} = await axios({
+          method: 'DELETE',
+          url:`${API_BASE_URL}/api/v1/feature/${payload.id}`,
+        });
+        
+        if([200,201].includes(status)){
+          this.toggle_request.data = data;
+          this.toggle_request.error = null;
+        }
+      } catch(error){
+        this.toggle_request.data = null;
+        this.toggle_request.error = error.response.data;
+      } finally {
+        this.toggle_request.loading = false;
+      }
+    },
   }
 })
 

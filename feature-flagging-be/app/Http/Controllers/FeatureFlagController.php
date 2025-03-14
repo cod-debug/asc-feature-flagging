@@ -125,4 +125,24 @@ class FeatureFlagController extends Controller
             return $this->serverError($e);
         }
     }
+
+    public function delete($id): JsonResponse{
+        try {
+            $feature_flag = FeatureFlagModel::find($id);
+
+            if(!$feature_flag){
+                return response()->json([
+                    'message' => 'Feature not found.'
+                ], 404);
+            }
+
+            $feature_flag->delete();
+
+            return response()->json([
+                'message' => 'Successfully deleted feature flag.'
+            ]);
+        } catch (\Exception $e) {
+            return $this->serverError($e);
+        }
+    }
 }

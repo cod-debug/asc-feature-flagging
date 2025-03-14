@@ -12,7 +12,7 @@ Route::get('login', function(){
     return response()->json(['Unauthorized user.'], 401);
 })->name('login');
 
-Route::prefix('v1')->group(function() {    
+Route::prefix('v1')->group(function() {
     Route::prefix('auth')->group(function(){
         Route::post('login', [AuthController::class, 'login']);
     });
@@ -21,6 +21,7 @@ Route::prefix('v1')->group(function() {
         Route::post('', [FeatureFlagController::class, 'create']);
         Route::get('', [FeatureFlagController::class, 'getFeatureFlags']);
         Route::put('/{id}', [FeatureFlagController::class, 'update']);
+        Route::delete('/{id}', [FeatureFlagController::class, 'delete']);
         Route::put('toggle/{id}', [FeatureFlagController::class, 'toggleFeatureFlag']);
     });
 
