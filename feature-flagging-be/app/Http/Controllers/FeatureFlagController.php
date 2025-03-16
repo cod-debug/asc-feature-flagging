@@ -73,11 +73,10 @@ class FeatureFlagController extends Controller
                 $feature_flags = $feature_flags->where('user_id', $user_id);
             }
 
-            $features = $feature_flags->get()->map(function ($item) {
-                return [
-                    $item->key => $item->is_on === 1 ? true : false
-                ];
-            });
+            $features = $feature_flags->get()->reduce(function ($carry, $item) {
+                $carry[$item->key] = $item->is_on === 1 ? true : false;
+                return $carry;
+            }, []);
             
             return response()->json($features);
         } catch (\Exception $e) {
