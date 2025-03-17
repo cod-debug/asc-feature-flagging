@@ -40,6 +40,7 @@ const { list_request } = storeToRefs(feature_flagging_store);
 const feature_list = ref([]);
 
 const getList = async () => {
+    feature_list.value = [];
     await list();
     const response = list_request.value;
 

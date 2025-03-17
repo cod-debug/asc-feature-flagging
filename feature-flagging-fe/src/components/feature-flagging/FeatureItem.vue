@@ -90,6 +90,7 @@ const handleUpdateFeature = async () => {
           timeout: 5000,
           color: 'green',
         });
+        EventBus.emit('get-list');
     } else {
         Notify.create({
           message: response.error.message,
