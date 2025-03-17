@@ -43,12 +43,13 @@ import { storeToRefs } from 'pinia';
 import { Notify } from 'quasar';
 import { featureFlaggingStore } from 'src/stores/feature_flagging';
 import { ref } from 'vue';
+import { EventBus } from './FeatureFlagEventBus.vue';
 
 const props = defineProps(['feature']);
 const feature = props.feature;
 const store = featureFlaggingStore();
-const { toggle } = store;
-const { toggle_request } = storeToRefs(store);
+const { toggle, update, delete: deleteFeature } = store;
+const { toggle_request, update_request, delete_request } = storeToRefs(store);
 const is_edit = ref(false);
 const is_delete = ref(false);
 
@@ -74,11 +75,60 @@ const closeAllAction = () => {
 }
 
 const handleUpdateFeature = async () => {
-    alert('Save update...');
+    const payload = {
+        id: feature.id,
+        ...update_form.value
+    }
+    await update(payload);
+    
+    const response = update_request.value;
+    if(response.data){
+        Notify.create({
+          message: response.data.message,
+          position: 'top',
+          closeBtn: "X",
+          timeout: 5000,
+          color: 'green',
+        });
+    } else {
+        Notify.create({
+          message: response.error.message,
+          position: 'top',
+          closeBtn: "X",
+          timeout: 5000,
+          color: 'red',
+        });
+    }
+
+    is_edit.value = false;
 }
 
 const handleDelete = async () => {
-    alert('Delete feature...');
+    const payload = {
+        id: feature.id
+    }
+
+    await deleteFeature(payload);
+
+    const response = delete_request.value;
+    if(response.data){
+        Notify.create({
+          message: response.data.message,
+          position: 'top',
+          closeBtn: "X",
+          timeout: 5000,
+          color: 'green',
+        });
+        EventBus.emit('get-list');
+    } else {
+        Notify.create({
+          message: response.error.message,
+          position: 'top',
+          closeBtn: "X",
+          timeout: 5000,
+          color: 'red',
+        });
+    }
 }
 
 const handleToggleFeatureFlag = async () => {

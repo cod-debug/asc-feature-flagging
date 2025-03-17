@@ -26,6 +26,11 @@ export const featureFlaggingStore = defineStore('authStore', {
       error: null,
       data: null,
     },
+    delete_request: {
+      loading: false,
+      error: null,
+      data: null,
+    },
   }),
   getters: {},
   actions: {
@@ -78,7 +83,7 @@ export const featureFlaggingStore = defineStore('authStore', {
       try {
         const {data, status} = await axios({
           method: 'PUT',
-          url:`${API_BASE_URL}/api/v1/feature`,
+          url:`${API_BASE_URL}/api/v1/feature/${payload.id}`,
           data: payload,
         });
         
@@ -113,7 +118,7 @@ export const featureFlaggingStore = defineStore('authStore', {
       }
     },
     async delete(payload){
-      this.toggle_request.loading = true;
+      this.delete_request.loading = true;
       try {
         const {data, status} = await axios({
           method: 'DELETE',
@@ -121,14 +126,14 @@ export const featureFlaggingStore = defineStore('authStore', {
         });
         
         if([200,201].includes(status)){
-          this.toggle_request.data = data;
-          this.toggle_request.error = null;
+          this.delete_request.data = data;
+          this.delete_request.error = null;
         }
       } catch(error){
-        this.toggle_request.data = null;
-        this.toggle_request.error = error.response.data;
+        this.delete_request.data = null;
+        this.delete_request.error = error.response.data;
       } finally {
-        this.toggle_request.loading = false;
+        this.delete_request.loading = false;
       }
     },
   }

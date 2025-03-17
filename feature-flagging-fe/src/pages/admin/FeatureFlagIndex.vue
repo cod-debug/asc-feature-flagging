@@ -29,9 +29,10 @@
 <script setup>
 import AddFeature from 'src/components/feature-flagging/AddFeature.vue';
 import FeatureList from 'src/components/feature-flagging/FeatureList.vue';
-import { onMounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import { featureFlaggingStore } from 'src/stores/feature_flagging';
 import { storeToRefs } from 'pinia';
+import { EventBus } from 'src/components/feature-flagging/FeatureFlagEventBus.vue';
 
 const feature_flagging_store = featureFlaggingStore();
 const { list } = feature_flagging_store;
@@ -52,5 +53,10 @@ const getList = async () => {
 
 onMounted(() => {
     getList();
+    EventBus.on('get-list', getList);
+});
+
+onUnmounted(() => {
+    EventBus.off('get-list', getList);
 });
 </script>

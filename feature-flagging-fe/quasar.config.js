@@ -14,7 +14,6 @@ export default defineConfig((/* ctx */) => {
     boot: [
       'inputRules',
       'moment',
-      'helper',
       'country'
     ],
 
