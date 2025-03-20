@@ -8,7 +8,7 @@
             <div class="q-pa-sm">
                 <q-input label="Key" hint="Leaving this field blank will allow the system to create a key for you. This will be use as identifier for the feature" v-model="add_form.key" filled :disable="add_request.loading" />
             </div>
-            <div class="q-pa-sm">
+            <div class="q-pa-sm text-right">
                 <q-btn type="submit" label="Submit" color="primary" :disable="add_request.loading" />
             </div>
         </q-form>
@@ -36,7 +36,7 @@ const handleSubmit = async () => {
         Notify.create({
           message: response.data.message,
           position: 'top',
-          closeBtn: "X",
+          closeBtn: "Okay",
           timeout: 5000,
           color: 'green',
         });

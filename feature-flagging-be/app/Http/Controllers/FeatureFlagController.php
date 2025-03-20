@@ -51,6 +51,9 @@ class FeatureFlagController extends Controller
 
     public function getFeatureFlags(Request $request): JsonResponse{
         try {
+            $limit = $request->get('limit') ?? 10;
+            $keyword = $request->get('keyword') ?? '';
+            
             $user_id = $request->get('user_id');
             $feature_flags = FeatureFlagModel::query();
 
@@ -58,7 +61,14 @@ class FeatureFlagController extends Controller
                 $feature_flags = $feature_flags->where('user_id', $user_id);
             }
 
-            return response()->json($feature_flags->get());
+            if($keyword){
+                $feature_flags->where(function($query) use ($keyword) {
+                    $query->where('display_name', 'LIKE', '%'. $keyword .'%')
+                    ->orWhere('key', 'LIKE', '%'. $keyword .'%');
+                });
+            }
+            
+            return response()->json($feature_flags->paginate($limit));
         } catch (\Exception $e) {
             return $this->serverError($e);
         }

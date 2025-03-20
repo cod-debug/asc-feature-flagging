@@ -4,8 +4,15 @@
             <div class="toggle-action-buttons">
                 <div class="flex justify-end items-center full-height" style="gap: .5rem;">
                     <template v-if="!is_edit && !is_delete">
-                        <q-btn icon="edit" size="sm" color="green-14" @click="openEdit" />
-                        <q-btn icon="delete" size="sm" color="red-12" @click="openDelete" />
+                        <q-btn icon="content_copy" size="sm" color="blue-12" @click="copyToClipboard">
+                            <q-tooltip>Copy key to clipboard</q-tooltip>
+                        </q-btn>
+                        <q-btn icon="edit" size="sm" color="green-14" @click="openEdit">
+                            <q-tooltip>Edit feature flag</q-tooltip>
+                        </q-btn>
+                        <q-btn icon="delete" size="sm" color="red-12" @click="openDelete">
+                            <q-tooltip>Permanently remove feature flag</q-tooltip>
+                        </q-btn>
                     </template>
                     <template v-if="is_edit">
                         <q-btn icon="check" @click="handleUpdateFeature" size="sm" color="green-14">
@@ -52,6 +59,21 @@ const { toggle, update, delete: deleteFeature } = store;
 const { toggle_request, update_request, delete_request } = storeToRefs(store);
 const is_edit = ref(false);
 const is_delete = ref(false);
+const copied = ref(false);
+
+const copyToClipboard = async () => {
+  try {
+    await navigator.clipboard.writeText(feature.key);
+    copied.value = true;
+    Notify.create({
+        type: 'info',
+        message: `"${feature.key}" copied to clipboard`,
+    })
+    setTimeout(() => (copied.value = false), 2000);
+  } catch (err) {
+    console.error("Failed to copy: ", err);
+  }
+};
 
 const update_form = ref({ display_name: '', key: '' })
 
