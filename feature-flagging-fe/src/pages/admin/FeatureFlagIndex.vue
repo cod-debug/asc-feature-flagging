@@ -37,7 +37,7 @@
                         <div v-if="feature_list.length === 0 && !list_request.loading">
                             No data found.
                         </div>
-                        <div class="flex justify-between">
+                        <div class="flex justify-between" v-if="list_request && list_request.data">
                             <div>
                                 Showing {{ list_request.data.from }} to {{ list_request.data.to }} of {{ list_request.data.total }}
                             </div>
