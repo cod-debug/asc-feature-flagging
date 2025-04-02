@@ -68,7 +68,7 @@ class FeatureFlagController extends Controller
                 });
             }
             
-            return response()->json($feature_flags->paginate($limit));
+            return response()->json($feature_flags->orderBy('display_name', 'asc')->paginate($limit));
         } catch (\Exception $e) {
             return $this->serverError($e);
         }
