@@ -23,6 +23,7 @@ Route::prefix('v1')->group(function() {
         Route::get('', [FeatureFlagController::class, 'getFeatureFlags']);
         Route::put('/{id}', [FeatureFlagController::class, 'update']);
         Route::delete('/{id}', [FeatureFlagController::class, 'delete']);
+        Route::put('toggle/all', [FeatureFlagController::class , 'toggleAllFeatures']);
         Route::put('toggle/{id}', [FeatureFlagController::class, 'toggleFeatureFlag']);
     });
 

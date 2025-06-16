@@ -154,4 +154,19 @@ class FeatureFlagController extends Controller
             return $this->serverError($e);
         }
     }
+
+    public function toggleAllFeatures(Request $request){
+        try {
+            $type = $request->type;
+
+            $affected = FeatureFlagModel::query()->update(['is_on' => $type]);
+
+            return response()->json([
+                'data' => $affected,
+                'message' => 'Successfully updated features.'
+            ]);
+        } catch (\Exception $e) {
+            return $this->serverError($e);
+        }
+    }
 }

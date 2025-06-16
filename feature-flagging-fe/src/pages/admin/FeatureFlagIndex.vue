@@ -26,6 +26,9 @@
                     </q-card-section>
                     <q-separator />
                     <q-card-section>
+                        <div class="q-mb-md">
+                            <feature-toggle-all />
+                        </div>
                         <q-form @submit="getList">
                             <q-input filled outline type="search" v-model="list_payload.keyword" label="Search Feature">
                                 <template v-slot:append>
@@ -58,6 +61,7 @@ import { onMounted, onUnmounted, ref } from 'vue';
 import { featureFlaggingStore } from 'src/stores/feature_flagging';
 import { storeToRefs } from 'pinia';
 import { EventBus } from 'src/components/feature-flagging/FeatureFlagEventBus.vue';
+import FeatureToggleAll from 'components/feature-flagging/FeatureToggleAll.vue';
 
 const open_add_modal = ref(false);
 const feature_flagging_store = featureFlaggingStore();
